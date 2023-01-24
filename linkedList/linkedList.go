@@ -21,12 +21,19 @@ func (l *LinkedList) Push(k string) {
 }
 
 func (l *LinkedList) Pop() {
-	currNode := l.Head
-	for currNode != nil {
-		if currNode.GetNextNode() == nil {
-			currNode.SetNextNode(nil)
+	if l.Head == nil {
+		return
+	}
+	if l.Head.GetNextNode() == nil {
+		l.Head = nil
+		return
+	}
+	prevNode := l.Head
+	for prevNode.GetNextNode() != nil {
+		if prevNode.GetNextNode().GetNextNode() == nil {
+			prevNode.SetNextNode(nil)
 		}
-		currNode = currNode.GetNextNode()
+		prevNode = prevNode.GetNextNode()
 	}
 }
 
@@ -34,11 +41,11 @@ func (l *LinkedList) Remove(k string) {
 	if l.Head == nil {
 		return
 	}
-	prevNode := l.Head
-	if prevNode.GetCurrentKey() == k {
-		l.Head = prevNode.GetNextNode()
+	if l.Head.GetCurrentKey() == k {
+		l.Head = l.Head.GetNextNode()
 		return
 	}
+	prevNode := l.Head
 	for prevNode.GetNextNode() != nil {
 		if prevNode.GetNextNode().GetCurrentKey() == k {
 			prevNode.SetNextNode(prevNode.GetNextNode().GetNextNode())
